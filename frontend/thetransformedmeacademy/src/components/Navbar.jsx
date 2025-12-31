@@ -1,10 +1,15 @@
 import React from "react";
 import { ShoppingCart, UserPlus, LogIn, LogOut, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useUserStore } from "../stores/useUserStore";
+// REMOVE THIS LINE - This is causing your Mongoose error!
+// import { logout } from "../../../../backend/controllers/auth.controller";
 
 const Navbar = () => {
-  const isAdmin = false;
-  const user = false; // Replace with actual authentication logic
+  const { user, logout } = useUserStore();
+  // Change this line to check array
+  const isAdmin = user?.roles?.includes("admin");
+
   return (
     <div>
       <header className="fixed top-0 left-0 w-full bg-gray-900 bg-opacity-90 backdrop-blur-md shadow-lg z-40 transition-all duration-300 border-b border-b-slate-700">
@@ -26,9 +31,9 @@ const Navbar = () => {
               {user && (
                 <Link
                   to={"/cart"}
-                  className="relative  text-slate-300 hover:text-slate-200 transition-colors duration-300"
+                  className="relative text-slate-300 hover:text-slate-200 transition-colors duration-300 flex items-center gap-2"
                 >
-                  <ShoppingCart className="w-6 h-6 text-slate-300 hover:text-slate-200 transition-colors duration-300" />
+                  <ShoppingCart className="w-6 h-6" />
                   <span className="hidden sm:inline">Cart</span>
                   <span className="absolute -top-2 -left-2 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                     3
@@ -36,15 +41,21 @@ const Navbar = () => {
                 </Link>
               )}
               {isAdmin && (
-                <Link className="text-slate-300 hover:text-slate-200 transition-colors duration-300">
-                  <Lock className="w-6 h-6 text-slate-300 hover:text-slate-200 transition-colors duration-300" />
+                <Link
+                  to={"/secret-dashboard"}
+                  className="text-slate-300 hover:text-slate-200 transition-colors duration-300 flex items-center gap-2"
+                >
+                  <Lock className="w-6 h-6" />
                   <span className="hidden sm:inline">Dashboard</span>
                 </Link>
               )}
               {user ? (
-                <button className="bg-gray-700 text-white py-2 px-4 rounded hover:bg-gray-600 transition-colors duration-300 flex items-center gap-2 ease-in-out">
+                <button
+                  className="bg-gray-700 text-white py-2 px-4 rounded hover:bg-gray-600 transition-colors duration-300 flex items-center gap-2 ease-in-out"
+                  onClick={logout}
+                >
                   <LogOut size={18} />
-                  <span className="hidden sm:inline ml-2">Logout</span>
+                  <span className="hidden sm:inline">Logout</span>
                 </button>
               ) : (
                 <>
@@ -52,15 +63,15 @@ const Navbar = () => {
                     to={"/signup"}
                     className="bg-slate-600 text-white py-2 px-4 rounded hover:bg-slate-500 transition-colors duration-300 flex items-center gap-2 ease-in-out"
                   >
-                    <UserPlus className="mr-2" size={18} />
-                    Sign Up
+                    <UserPlus size={18} />
+                    <span className="hidden sm:inline">Sign Up</span>
                   </Link>
                   <Link
                     to={"/login"}
                     className="bg-slate-600 text-white py-2 px-4 rounded hover:bg-slate-500 transition-colors duration-300 flex items-center gap-2 ease-in-out"
                   >
-                    <LogIn className="mr-2" size={18} />
-                    Login
+                    <LogIn size={18} />
+                    <span className="hidden sm:inline">Login</span>
                   </Link>
                 </>
               )}
