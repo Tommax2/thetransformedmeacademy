@@ -25,10 +25,10 @@ export const getFeaturedProducts = async (req, res) => {
             return res.status(404).json({ message: 'No featured products found' });
         }
     
-        await redis.set("featured_products", JSON.stringify(featuredProducts), 'EX', 3600); // Cache for 1 hour
-        res.status(200).json(featuredProducts);
+    await redis.set("featured_products", JSON.stringify(featuredProducts), { ex: 3600 }); // Cache for 1 hour
+    res.status(200).json(featuredProducts);
 }
-    catch (error) {
+catch (error) {
         console.error('Error fetching featured products:', error);
         res.status(500).json({ message: 'Server Error' });
 
@@ -142,7 +142,7 @@ export const toggleFeaturedProduct = async (req, res) => {
 async function updateFeaturedProductsCache() {
     try {
         const featuredProducts = await Product.find({ isFeatured: true }).lean();
-        await redis.set("featured_products", JSON.stringify(featuredProducts), 'EX', 3600); // Cache for 1 hour
+        await redis.set("featured_products", JSON.stringify(featuredProducts), { ex: 3600 }); // Cache for 1 hour
     } catch (error) {
         console.error('Error updating featured products cache:', error);
     }

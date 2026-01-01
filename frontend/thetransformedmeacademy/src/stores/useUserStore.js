@@ -23,7 +23,7 @@ export const useUserStore = create((set, get) => ({
             password,
         });
         console.log("Signup response:", res.data); // DEBUG
-        set({user: res.data, loading: false});
+        set({user: res.data.user, loading: false});
 
     }catch (error) {
         set({loading: false});
@@ -40,7 +40,7 @@ export const useUserStore = create((set, get) => ({
             password,
         });
         console.log("Login response:", res.data); // DEBUG
-        set({user: res.data, loading: false});
+        set({user: res.data.user, loading: false});
 
     }catch (error) {
         set({loading: false});
@@ -103,5 +103,3 @@ export const useUserStore = create((set, get) => ({
 // 		return Promise.reject(error);
 // 	}
 // );
-
-

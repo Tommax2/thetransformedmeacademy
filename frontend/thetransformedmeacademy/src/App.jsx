@@ -4,6 +4,7 @@ import SignUpPage from "./pages/SignUpPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import Navbar from "./components/Navbar.jsx";
 import AdminPage from "./pages/AdminPage.jsx";
+import CategoryPage from "./pages/CategoryPage.jsx"
 import { Toaster } from "react-hot-toast";
 import { useUserStore } from "./stores/useUserStore.js";
 import { useEffect } from "react";
@@ -46,6 +47,10 @@ function App() {
           <Route 
             path="/secret-dashboard" 
             element={isAdmin ? <AdminPage /> : <Navigate to='/login' />} 
+          />
+          <Route 
+            path="/category/:category" 
+            element={<CategoryPage />} 
           />
         </Routes>
       </div>
