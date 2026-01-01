@@ -109,17 +109,15 @@ export const getRecommendedProducts = async (req, res) => {
 };
 
 export const getProductsByCategory = async (req, res) => {
-   const { category } = req.params;
-    try {
-        const products = await Product.find({ category});
-        res.status(200).json(products);
-    }
-    catch (error) {
-        console.log('Error in getProductsByCategory Controller', error.message);
-        res.status(500).json({ message: 'Server Error' });
-    }
-
-}
+	const { category } = req.params;
+	try {
+		const products = await Product.find({ category: { $regex: `^${category}$`, $options: "i" } });
+		res.status(200).json({ products });
+	} catch (error) {
+		console.log("Error in getProductsByCategory Controller", error.message);
+		res.status(500).json({ message: "Server Error", error: error.message });
+	}
+};
 
 export const toggleFeaturedProduct = async (req, res) => {
     try {

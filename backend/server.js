@@ -2,7 +2,6 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import authRoutes from './routes/auth.route.js';
-import { connect } from 'mongoose';
 import { connectDB } from './lib/db.js';
 import cookieParser from 'cookie-parser';
 import productRoutes from './routes/product.route.js';
@@ -28,8 +27,16 @@ app.use("/api/cart", cartRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/analytics', analyticsRoutes);
 
-app.listen(PORT, () => {  
-    console.log('Server is running Http://localhost:' + PORT); 
-    
-    connectDB();
-});
+const startServer = async () => {
+    try {
+        await connectDB();
+        app.listen(PORT, () => {
+            console.log('Server is running Http://localhost:' + PORT);
+        });
+    } catch (error) {
+        console.error("Failed to start server:", error.message);
+        process.exit(1);
+    }
+};
+
+startServer();

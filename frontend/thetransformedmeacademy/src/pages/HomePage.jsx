@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom'
 import CategoryItem from '../components/CategoryItem'
 
 const categories = [
-  { href: "/Kids", name: "Kids", imageUrl:"/kids books.jpg" },
-  { href:"/teens", name:"Teens", imageUrl:"/romance.jpg" },
-  { href:"/adults", name:"Adults", imageUrl:"/spirit books.jpg" },
-  { href:"/Christian" , name: "Christian", imageUrl:"/christain.jpg" }
-]
+  { href: "/kids", name: "Kids", imageUrl: "/kids-books.jpg" },
+  { href: "/teens", name: "Teens", imageUrl: "/romance.jpg" },
+  { href: "/adults", name: "Adults", imageUrl: "/spirit-books.jpg" },
+  { href: "/christian", name: "Christian", imageUrl: "/christain.jpg" }
+];
 
 const HomePage = () => {
   return (
